@@ -9,10 +9,8 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
-
 #define LZ4_MEM_COMPRESS	(4096 * sizeof(unsigned char *))
 #define LZ4HC_MEM_COMPRESS	(65538 * sizeof(unsigned char *))
-
 
 /*
  * lz4_compressbound()
@@ -25,7 +23,6 @@ static inline size_t lz4_compressbound(size_t isize)
 }
 
 /*
-
  * lz4_compress()
  *	src     : source address of the original data
  *	src_len : size of the original data
@@ -60,7 +57,6 @@ int lz4hc_compress(const unsigned char *src, size_t src_len,
 		unsigned char *dst, size_t *dst_len, void *wrkmem);
 
 /*
-
  * lz4_decompress()
  *	src     : source address of the compressed data
  *	src_len : is the input size, whcih is returned after decompress done
