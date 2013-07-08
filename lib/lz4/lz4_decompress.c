@@ -139,6 +139,9 @@ static int lz4_uncompress(const char *source, char *dest, int osize)
 			/* Error: request to write beyond destination buffer */
 			if (cpy > oend)
 				goto _output_error;
+			if ((ref + COPYLENGTH) > oend ||
+					(op + COPYLENGTH) > oend)
+				goto _output_error;
 			LZ4_SECURECOPY(ref, op, (oend - COPYLENGTH));
 			while (op < cpy)
 				*op++ = *ref++;
@@ -289,7 +292,6 @@ static int lz4_uncompress_unknownoutputsize(const char *source, char *dest,
 	/* write overflow error detected */
 _output_error:
 	return -1;
-
 }
 
 int lz4_decompress(const unsigned char *src, size_t *src_len,
@@ -333,3 +335,4 @@ EXPORT_SYMBOL(lz4_decompress_unknownoutputsize);
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_DESCRIPTION("LZ4 Decompressor");
 #endif
+
