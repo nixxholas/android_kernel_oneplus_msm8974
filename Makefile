@@ -360,9 +360,8 @@ PARAMETERS    := --param l1-cache-size=32 --param l1-cache-line-size=32 --param 
 MODULO_SCHED  := -fmodulo-sched \
 		 -fmodulo-sched-allow-regmoves
 
-EXTRA_LOOP    := -ftree-loop-distribution \
-		 -floop-unroll-and-jam 	\
- 		 -ftree-loop-if-convert \
+EXTRA_LOOP	:= -ftree-loop-distribution \
+		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
 		 -ftree-loop-ivcanon 
 
