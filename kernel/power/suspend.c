@@ -37,37 +37,9 @@ const char *const pm_states[PM_SUSPEND_MAX] = {
 	[PM_SUSPEND_STANDBY]	= "standby",
 	[PM_SUSPEND_MEM]	= "mem",
 };
-const char *const pm_states[PM_SUSPEND_MAX] = {
-	[PM_SUSPEND_FREEZE]	= "freeze",
-	[PM_SUSPEND_STANDBY]	= "standby",
-	[PM_SUSPEND_MEM]	= "mem",
-};
 
 static const struct platform_suspend_ops *suspend_ops;
-static bool need_suspend_ops(suspend_state_t state)
-{
-	return !!(state > PM_SUSPEND_FREEZE);
-}
 
-static DECLARE_WAIT_QUEUE_HEAD(suspend_freeze_wait_head);
-static bool suspend_freeze_wake;
-
-static void freeze_begin(void)
-{
-	suspend_freeze_wake = false;
-}
-
-static void freeze_enter(void)
-{
-	wait_event(suspend_freeze_wait_head, suspend_freeze_wake);
-}
-
-void freeze_wake(void)
-{
-	suspend_freeze_wake = true;
-	wake_up(&suspend_freeze_wait_head);
-}
-EXPORT_SYMBOL_GPL(freeze_wake);
 /**
  * suspend_set_ops - Set the global suspend method table.
  * @ops: Suspend operations to use.
