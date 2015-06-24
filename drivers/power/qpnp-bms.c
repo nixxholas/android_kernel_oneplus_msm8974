@@ -2191,7 +2191,7 @@ out:
 
 static int clamp_soc_based_on_voltage(struct qpnp_bms_chip *chip, int soc)
 {
-	int rc, vbat_uv = 0;
+	int rc, vbat_uv;
 
 	rc = get_battery_voltage(chip, &vbat_uv);
 	if (rc < 0) {
@@ -2476,7 +2476,7 @@ done_calculating:
 static int calculate_soc_from_voltage(struct qpnp_bms_chip *chip)
 {
 	int voltage_range_uv, voltage_remaining_uv, voltage_based_soc;
-	int rc, vbat_uv = 0;
+	int rc, vbat_uv;
 
 	rc = get_battery_voltage(chip, &vbat_uv);
 	if (rc < 0) {
