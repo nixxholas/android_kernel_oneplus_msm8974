@@ -3175,7 +3175,7 @@ CONFIG_MSM_DEVFREQ_DEVBW=y
 # CONFIG_CORESIGHT is not set
 # CONFIG_BIF is not set
 # CONFIG_SENSORS is not set
-
+CONFIG_ANDROID_LMK_ADJ_RBTREE=y
 #
 # File systems
 #
