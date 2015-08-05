@@ -371,15 +371,9 @@ EXTRA_LOOP    := -ftree-loop-distribution \
 STRICT_FLAGS  := -fstrict-aliasing \
 		 -Werror=strict-aliasing
 AS		= $(CROSS_COMPILE)as
-<<<<<<< HEAD
 LD		= $(CROSS_COMPILE)ld
 CC		= ccache $(CROSS_COMPILE)gcc $(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(O3_FLAGS) $(PIPE) $(PARAMETERS) $(TUNE_FLAGS) $(MODULO_SCHED) $(FAST_MATH) $(STRICT_FLAGS) $(LTO_FLAGS) $(DNDEBUG)
 CPP		= $(CC) -E
-=======
-LD		:= $(CROSS_COMPILE)ld $(LTO)
-CC		:= $(CROSS_COMPILE)gcc $(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(O3_FLAGS) $(PIPE) $(PARAMETERS) $(TUNE_FLAGS) $(MODULO_SCHED) $(FAST_MATH) $(STRICT_FLAGS) $(DNDEBUG)
-CPP		:= $(CC) -E
->>>>>>> 64c95c2... Makefile: don't use LTO with GCC yet
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
 STRIP		= $(CROSS_COMPILE)strip
