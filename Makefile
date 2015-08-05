@@ -339,7 +339,6 @@ GRAPHITE_LOOP := -floop-interchange \
 		 -floop-parallelize-all 
 
 OPTIMIZATIONS	:= -Ofast \
-		 -fgcse-sm \
 		 -Wno-array-bounds \
 		 -Wno-error=strict-overflow \
 		 $(call cc-disable-warning,maybe-uninitialized,)
@@ -368,7 +367,7 @@ STRICT_FLAGS  := -mvectorize-with-neon-quad
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld $(LTO)
-CC		= $(CROSS_COMPILE)gcc $(PIPE) $(DNDEBUG) $(OPTIMIZATIONS)$(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(TUNE_FLAGS) $(MODULO_SCHED) $(PARAMETERS)
+CC		= ccache $(CROSS_COMPILE)gcc $(PIPE) $(DNDEBUG) $(OPTIMIZATIONS)$(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(TUNE_FLAGS) $(MODULO_SCHED) $(PARAMETERS)
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
