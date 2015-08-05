@@ -245,8 +245,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = ccache gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer $(PIPE) $(DNDEBUG) -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
-HOSTCXXFLAGS = $(PIPE) $(DNDEBUG) -O3 -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -fomit-frame-pointer -DNDEBUG -pipe -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
+HOSTCXXFLAGS = -Ofast -DNDEBUG -pipe -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
 
 
 # Decide whether to build built-in, modular, or both.
@@ -327,33 +327,23 @@ MAKEFLAGS += --include-dir=$(srctree)
 $(srctree)/scripts/Kbuild.include: ;
 include $(srctree)/scripts/Kbuild.include
 
-<<<<<<< HEAD
 
 # Make variables (CC, etc...)
 GRAPHITE      := -fgraphite \
-=======
-# Make variables (CC, etc...)
-GRAPHITE	:= -fgraphite \
->>>>>>> 7a9b96e... Makefile: rework some flags
 		 -fgraphite-identity
 
 GRAPHITE_LOOP := -floop-interchange \
 		 -floop-strip-mine \
 		 -floop-block	\
 		 -ftree-loop-linear \
-		 -floop-parallelize-all \
+		 -floop-unroll-and-jam \
 		 -floop-nest-optimize
 
-<<<<<<< HEAD
 OPTIMIZATIONS	:= -Ofast  $(call cc-disable-warning,maybe-uninitialized,) \
 
-=======
-OPTIMIZATIONS	:= -Ofast \
->>>>>>> 7a9b96e... Makefile: rework some flags
 		 -fgcse-sm \
 		 -Wno-array-bounds \
-		 -Wno-error=strict-overflow \
-		 $(call cc-disable-warning,maybe-uninitialized,)
+		 -Wno-error=strict-overflow
 
 LTO_FLAGS     := -flto=4 -fuse-linker-plugin
 PIPE          := -pipe
@@ -370,7 +360,6 @@ PARAMETERS    := --param l1-cache-size=32 --param l1-cache-line-size=32 --param 
 MODULO_SCHED  := -fmodulo-sched \
 		 -fmodulo-sched-allow-regmoves
 
-<<<<<<< HEAD
 EXTRA_LOOP    := -ftree-loop-distribution \
 		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
@@ -385,19 +374,6 @@ AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
 CC		= ccache $(CROSS_COMPILE)gcc $(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(OPTIMIZATIONS) $(PIPE) $(PARAMETERS) $(TUNE_FLAGS) $(MODULO_SCHED) $(FAST_MATH) $(STRICT_FLAGS) $(DNDEBUG)
 CPP		= $(CC) -E
-=======
-EXTRA_LOOP	:= -ftree-loop-distribution \
-		 -floop-unroll-and-jam \
-		 -ftree-loop-if-convert \
-		 -ftree-loop-im \
-		 -ftree-loop-ivcanon \
-		 -mvectorize-with-neon-quad
-
-AS		= $(CROSS_COMPILE)as
-LD		= $(CROSS_COMPILE)ld $(LTO)
-CC		= $(CROSS_COMPILE)gcc $(PIPE) $(DNDEBUG) $(OPTIMIZATIONS)$(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(TUNE_FLAGS) $(MODULO_SCHED) $(PARAMETERS)
-CPP		:= $(CC) -E
->>>>>>> 7a9b96e... Makefile: rework some flags
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
 STRIP		= $(CROSS_COMPILE)strip
