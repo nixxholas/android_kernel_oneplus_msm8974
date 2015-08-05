@@ -364,7 +364,7 @@ EXTRA_LOOP    := -ftree-loop-distribution \
 		 -floop-unroll-and-jam \	
 		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
-		 -ftree-loop-ivcanon \
+		 -ftree-loop-ivcanon 
 
 STRICT_FLAGS  := -mvectorize-with-neon-quad
 
