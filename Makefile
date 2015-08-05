@@ -329,12 +329,20 @@ include $(srctree)/scripts/Kbuild.include
 
 # Make variables (CC, etc...)
 
+O3_FLAGS      := -O3 
+
+GRAPHITE	:= -fgraphite \
+		 -fgraphite-identity \
+		 -fopenmp
+
+PIPE          := -pipe
+
 STRICT_FLAGS := -fstrict-aliasing \
 		-Werror=strict-aliasing
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-CC		= ccache $(CROSS_COMPILE)gcc $(STRICT_FLAGS)
+CC		= ccache $(CROSS_COMPILE)gcc $(STRICT_FLAGS) $(PIPE) $(O3_FLAGS) $(GRAPHITE)
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -564,7 +572,7 @@ endif # $(dot-config)
 all: vmlinux
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -Ofast
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
