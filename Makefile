@@ -245,8 +245,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = ccache gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -fomit-frame-pointer -DNDEBUG -pipe -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
-HOSTCXXFLAGS = -Ofast -DNDEBUG -pipe -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-nest-optimize
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer $(PIPE) $(DNDEBUG) -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
+HOSTCXXFLAGS = $(PIPE) $(DNDEBUG) -O3 -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
 
 
 # Decide whether to build built-in, modular, or both.
@@ -336,14 +336,14 @@ GRAPHITE_LOOP := -floop-interchange \
 		 -floop-strip-mine \
 		 -floop-block	\
 		 -ftree-loop-linear \
-		 -floop-unroll-and-jam \
+		 -floop-parallelize-all \
 		 -floop-nest-optimize
 
-OPTIMIZATIONS	:= -Ofast  $(call cc-disable-warning,maybe-uninitialized,) \
-
+OPTIMIZATIONS	:= -Ofast \
 		 -fgcse-sm \
 		 -Wno-array-bounds \
-		 -Wno-error=strict-overflow
+		 -Wno-error=strict-overflow \
+		 $(call cc-disable-warning,maybe-uninitialized,)
 
 LTO_FLAGS     := -flto=4 -fuse-linker-plugin
 PIPE          := -pipe
@@ -361,18 +361,16 @@ MODULO_SCHED  := -fmodulo-sched \
 		 -fmodulo-sched-allow-regmoves
 
 EXTRA_LOOP    := -ftree-loop-distribution \
+		 -floop-unroll-and-jam \	
 		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
 		 -ftree-loop-ivcanon \
-		 -ftree-vectorize \
-		 -mvectorize-with-neon-quad \
-		 -fprefetch-loop-arrays
 
-STRICT_FLAGS  := -fstrict-aliasing \
-		 -Werror=strict-aliasing
+STRICT_FLAGS  := -mvectorize-with-neon-quad
+
 AS		= $(CROSS_COMPILE)as
-LD		= $(CROSS_COMPILE)ld
-CC		= ccache $(CROSS_COMPILE)gcc $(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(OPTIMIZATIONS) $(PIPE) $(PARAMETERS) $(TUNE_FLAGS) $(MODULO_SCHED) $(FAST_MATH) $(STRICT_FLAGS) $(DNDEBUG)
+LD		= $(CROSS_COMPILE)ld $(LTO)
+CC		= $(CROSS_COMPILE)gcc $(PIPE) $(DNDEBUG) $(OPTIMIZATIONS)$(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(TUNE_FLAGS) $(MODULO_SCHED) $(PARAMETERS)
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
