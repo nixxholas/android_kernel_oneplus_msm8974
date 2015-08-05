@@ -362,7 +362,6 @@ MODULO_SCHED  := -fmodulo-sched \
 
 EXTRA_LOOP    := -ftree-loop-distribution \
 		 -floop-unroll-and-jam \	
-		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
 		 -ftree-loop-ivcanon 
 
