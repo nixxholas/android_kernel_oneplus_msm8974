@@ -245,8 +245,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = ccache gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer $(PIPE) $(DNDEBUG) -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
-HOSTCXXFLAGS = $(PIPE) $(DNDEBUG) -O3 -fgcse-las $(GRAPHITE) $(GRAPHITE_LOOP)
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -fgcse-las -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
+HOSTCXXFLAGS = -O3 -fgcse-las -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
 
 
 # Decide whether to build built-in, modular, or both.
@@ -327,49 +327,14 @@ MAKEFLAGS += --include-dir=$(srctree)
 $(srctree)/scripts/Kbuild.include: ;
 include $(srctree)/scripts/Kbuild.include
 
-
 # Make variables (CC, etc...)
-GRAPHITE	:= -fgraphite \
-		 -fgraphite-identity \
-		 -fopenmp
 
-GRAPHITE_LOOP := -floop-interchange \
-		 -floop-strip-mine \
-		 -floop-block	\
-		 -ftree-loop-linear \
-		 -floop-parallelize-all 
-
-OPTIMIZATIONS	:= -Ofast \
-		 -fgcse-sm \
-		 -Wno-array-bounds \
-		 -Wno-error=strict-overflow \
-		 $(call cc-disable-warning,maybe-uninitialized,)
-
-LTO_FLAGS     := -flto=4 -fuse-linker-plugin
-PIPE          := -pipe
-DNDEBUG       := -DNDEBUG
-
-TUNE_FLAGS    := -marm \
-		 -mtune=cortex-a15 \
-		 -mcpu=cortex-a15 \
-		 -march=armv7ve \
-		 -mfpu=neon-vfpv4
-
-PARAMETERS    := --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=2048
-
-MODULO_SCHED  := -fmodulo-sched \
-		 -fmodulo-sched-allow-regmoves
-
-EXTRA_LOOP	:= -ftree-loop-distribution \
-		 -ftree-loop-if-convert \
-		 -ftree-loop-im \
-		 -ftree-loop-ivcanon 
-
-STRICT_FLAGS  := -mvectorize-with-neon-quad
+STRICT_FLAGS := -fstrict-aliasing \
+		-Werror=strict-aliasing
 
 AS		= $(CROSS_COMPILE)as
-LD		= $(CROSS_COMPILE)ld $(LTO)
-CC		= $(CROSS_COMPILE)gcc $(PIPE) $(DNDEBUG) $(OPTIMIZATIONS)$(GRAPHITE) $(GRAPHITE_LOOP) $(EXTRA_LOOP) $(TUNE_FLAGS) $(MODULO_SCHED) $(PARAMETERS)
+LD		= $(CROSS_COMPILE)ld
+CC		= ccache $(CROSS_COMPILE)gcc $(STRICT_FLAGS)
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -390,8 +355,8 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 
 KERNELFLAGS	= -pipe -DNDEBUG -O3 -mtune=cortex-a15 -mcpu=cortex-a15 -marm -mfpu=neon-vfpv4 
 MODFLAGS        = -DMODULE $(KERNELFLAGS)
-CFLAGS_MODULE   =  -DMODULE
-AFLAGS_MODULE   =  -DMODULE
+CFLAGS_MODULE   = $(MODFLAGS)
+AFLAGS_MODULE   = $(MODFLAGS)
 LDFLAGS_MODULE  =
 CFLAGS_KERNEL   = $(KERNELFLAGS)
 AFLAGS_KERNEL	= $(KERNELFLAGS)
@@ -598,9 +563,8 @@ endif # $(dot-config)
 # Defaults to vmlinux, but the arch makefile usually adds further targets
 all: vmlinux
 
-
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Ofast
+KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
@@ -1617,3 +1581,4 @@ FORCE:
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
 .PHONY: $(PHONY)
+
