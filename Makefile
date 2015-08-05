@@ -361,7 +361,8 @@ MODULO_SCHED  := -fmodulo-sched \
 		 -fmodulo-sched-allow-regmoves
 
 EXTRA_LOOP    := -ftree-loop-distribution \
-		 -floop-unroll-and-jam \	
+		 -floop-unroll-and-jam 	\
+ 		 -ftree-loop-if-convert \
 		 -ftree-loop-im \
 		 -ftree-loop-ivcanon 
 
