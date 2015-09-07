@@ -152,7 +152,7 @@ static bool protected_apps(char *comm)
 		atomic_set(&shift_adj, 0);
 	}
 
->>>>>>> f34005aa4fa603f4e6df10723fab2e18b29187f8
+
 	return 0;
 }
 
