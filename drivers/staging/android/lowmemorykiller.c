@@ -102,57 +102,11 @@ static bool avoid_to_kill(uid_t uid)
 
 static bool protected_apps(char *comm)
 {
-
 	if (strcmp(comm, "d.process.acore") == 0 ||
 			strcmp(comm, "ndroid.systemui") == 0 ||
 			strcmp(comm, "ndroid.contacts") == 0 ||
 			strcmp(comm, "system:ui") == 0)
 		return 1;
-	int other_free = 0, other_file = 0;
-	unsigned long pressure = action;
-	int array_size = ARRAY_SIZE(lowmem_adj);
-
-	if (!enable_adaptive_lmk)
-		return 0;
-
-	if (pressure >= 95) {
-		other_file = global_page_state(NR_FILE_PAGES) -
-			global_page_state(NR_SHMEM) -
-			total_swapcache_pages;
-		other_free = global_page_state(NR_FREE_PAGES);
-
-		atomic_set(&shift_adj, 1);
-		trace_almk_vmpressure(pressure, other_free, other_file);
-	} else if (pressure >= 90) {
-		if (lowmem_adj_size < array_size)
-			array_size = lowmem_adj_size;
-		if (lowmem_minfree_size < array_size)
-			array_size = lowmem_minfree_size;
-
-		other_file = global_page_state(NR_FILE_PAGES) -
-			global_page_state(NR_SHMEM) -
-			total_swapcache_pages;
-
-		other_free = global_page_state(NR_FREE_PAGES);
-
-		if ((other_free < lowmem_minfree[array_size - 1]) &&
-			(other_file < vmpressure_file_min)) {
-				atomic_set(&shift_adj, 1);
-				trace_almk_vmpressure(pressure, other_free,
-					other_file);
-		}
-	} else if (atomic_read(&shift_adj)) {
-		/*
-		 * shift_adj would have been set by a previous invocation
-		 * of notifier, which is not followed by a lowmem_shrink yet.
-		 * Since vmpressure has improved, reset shift_adj to avoid
-		 * false adaptive LMK trigger.
-		 */
-		trace_almk_vmpressure(pressure, other_free, other_file);
-		atomic_set(&shift_adj, 0);
-	}
-
-
 	return 0;
 }
 
