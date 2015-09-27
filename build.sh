@@ -21,7 +21,7 @@ RR_VER="$BASE_OWN_VER$VER"
 
 # Vars
 export LOCALVERSION="-$RR_VER-$(date +%Y%m%d)"
-export CROSS_COMPILE="/home/varun/RR/arm-eabi-6.0/bin/arm-eabi-"
+export CROSS_COMPILE="/home/varun/RR/prebuilts/gcc/linux-x86/arm/arm-eabi-6.0/bin/arm-eabi-"
 export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_HOST=`hostname`
@@ -50,7 +50,7 @@ function make_kernel {
 
 function make_zip {
 		cd $REPACK_DIR
-		zip -r9 ~/android/$RR_VER-$(date +%Y%m%d).zip *
+		zip -r9 ~/oneplus/$RR_VER-$(date +%Y%m%d).zip *
 		cd $KERNEL_DIR
 		while read -p "Do you want to upload zip (y/n)? " uchoice
 		do
