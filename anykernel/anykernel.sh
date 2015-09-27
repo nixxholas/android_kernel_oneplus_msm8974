@@ -3,7 +3,7 @@
 
 ## AnyKernel setup
 # EDIFY properties
-kernel.string=OwnKernel-Bacon by akhilnarang@xda
+kernel.string=RR Kernel by varund7726@xda
 do.devicecheck=1
 do.initd=0
 do.modules=0
