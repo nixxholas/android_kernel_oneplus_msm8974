@@ -188,4 +188,4 @@ else
 	fi
 fi
 
-echo "$ResurrectedKernel"
+echo "$res"
