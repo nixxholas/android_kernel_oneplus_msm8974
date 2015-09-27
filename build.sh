@@ -16,8 +16,8 @@ device="bacon"
 
 # Kernel Details
 BASE_RR_VER="RR-Varun-"
-VER="V2.0"
-RR_VER="$BASE_OWN_VER$VER"
+VER="V1.0"
+RR_VER="$BASE_RR_VER$VER"
 
 # Vars
 export LOCALVERSION="-$RR_VER-$(date +%Y%m%d)"
@@ -56,7 +56,7 @@ function make_zip {
 		do
 		case "$uchoice" in
 		        y|Y )
-		                upload-sf $FINAL_ZIP ownrom/bacon/OwnKernel
+		                upload-sf $FINAL_ZIP RR/device/bacon/RRkernel
 		                break
 		                ;;
 		        n|N )
