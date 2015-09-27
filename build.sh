@@ -15,7 +15,7 @@ DEFCONFIG="cyanogenmod_bacon_defconfig"
 device="bacon"
 
 # Kernel Details
-BASE_RR_VER="RR-Varun-"
+BASE_RR_VER="Resurrected_kernel"
 VER="V1.0"
 RR_VER="$BASE_RR_VER$VER"
 
