@@ -426,4 +426,4 @@ obj-$(CONFIG_PERFMAP) += perfmap.o
 obj-$(CONFIG_CHARGE_LEVEL) += charge_level.o
 obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
 obj-$(CONFIG_BRICKED_HOTPLUG) += bricked_hotplug.o
-obj-y += bricked_hotplug.o msm_limiter.o
+oby-$(CONFIG_MSM_LIMITER) += msm_limiter.o
