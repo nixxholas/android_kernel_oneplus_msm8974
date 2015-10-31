@@ -426,3 +426,4 @@ obj-$(CONFIG_PERFMAP) += perfmap.o
 obj-$(CONFIG_CHARGE_LEVEL) += charge_level.o
 obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
 obj-y += msm_limiter.o
+obj-$(CONFIG_ZEN_DECISION) += msm_zen_decision.o
