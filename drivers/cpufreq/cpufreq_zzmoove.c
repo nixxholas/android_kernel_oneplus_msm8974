@@ -1358,7 +1358,7 @@ static int validate_min_max(int val, int min, int max)
 }
 
 // ZZ: system table scaling mode with freq search optimizations and proportional freq option
-static int zz_get_next_freq(unsigned int curfreq, unsigned int updown, unsigned int load)
+static inline int zz_get_next_freq(unsigned int curfreq, unsigned int updown, unsigned int load)
 {
 	int i = 0;
 	unsigned int prop_target = 0, zz_target = 0, dead_band_freq = 0;	// ZZ: proportional freq, system table freq, dead band freq
@@ -9145,3 +9145,4 @@ fs_initcall(cpufreq_gov_dbs_init);
 module_init(cpufreq_gov_dbs_init);
 #endif /* CONFIG_CPU_FREQ_DEFAULT_GOV_ZZMOOVE */
 module_exit(cpufreq_gov_dbs_exit);
+
