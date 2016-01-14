@@ -16,7 +16,7 @@ device="bacon"
 
 # Kernel Details
 BASE_RR_VER="RR"
-VER="V3.2"
+VER="V3.3"
 RR_VER="$BASE_RR_VER$VER"
 
 # Vars
