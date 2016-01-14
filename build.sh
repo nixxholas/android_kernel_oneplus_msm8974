@@ -11,7 +11,7 @@ clear
 THREAD="-j10"
 KERNEL="zImage"
 DTBIMAGE="dtb"
-DEFCONFIG="cyanogenmod_bacon_defconfig"
+DEFCONFIG="resurrected_defconfig"
 device="bacon"
 
 # Kernel Details
