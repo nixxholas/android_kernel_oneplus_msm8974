@@ -369,8 +369,19 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks
-KBUILD_AFLAGS_KERNEL :=
+		   -fno-delete-null-pointer-checks \
+		   -Wno-maybe-uninitialized \
+		   -fno-delete-null-pointer-checks \
+		   -Wno-sizeof-pointer-memaccess \
+		   -std=gnu89
+
+# arter97's optimizations
+KBUILD_CFLAGS	+= -s -pipe -fno-pic -O2 -mcpu=cortex-a15 -mtune=cortex-a15 -mfloat-abi=softfp -mfpu=vfpv4
+# -Wno-unused
+KBUILD_CFLAGS	+= -Wno-unused
+# L1/L2 cache size parameters by @JustArchi
+KBUILD_CFLAGS	+= --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048
+>>>>>>> c7537f5... Updates for Rebase
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
 KBUILD_AFLAGS_MODULE  := -DMODULE
