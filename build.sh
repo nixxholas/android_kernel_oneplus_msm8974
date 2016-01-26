@@ -8,20 +8,20 @@ restore='\033[0m'
 clear
 
 # Resources
-THREAD="-j10"
+THREAD="-j20"
 KERNEL="zImage"
 DTBIMAGE="dtb"
-DEFCONFIG="cyanogenmod_bacon_defconfig"
+DEFCONFIG="resurrected_defconfig"
 device="bacon"
 
 # Kernel Details
 BASE_RR_VER="RR"
-VER="V1.0"
+VER="V3.4"
 RR_VER="$BASE_RR_VER$VER"
 
 # Vars
 export LOCALVERSION="-$RR_VER-$(date +%Y%m%d)"
-export CROSS_COMPILE="/home/varun/RR/prebuilts/gcc/linux-x86/arm/arm-eabi-6.0/bin/arm-eabi-"
+export CROSS_COMPILE="/home/varun/RR/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-"
 export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_HOST=`hostname`
