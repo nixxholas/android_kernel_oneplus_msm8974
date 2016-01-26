@@ -21,7 +21,7 @@ RR_VER="$BASE_RR_VER$VER"
 
 # Vars
 export LOCALVERSION="-$RR_VER-$(date +%Y%m%d)"
-export CROSS_COMPILE="/home/varun/RR/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-"
+export CROSS_COMPILE="/home/varun/rr2/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-"
 export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_HOST=`hostname`
